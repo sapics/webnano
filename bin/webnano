@@ -1,0 +1,30 @@
+#! /usr/bin/env node
+// -*- js -*-
+
+const program = require('commander')
+		, fs = require('fs')
+		, webMinify = require('../index.js')
+
+program.usage('<directory> [options]')
+program.description('Minify the files included in <directory>')
+program.option('-o, --output <directory>', 'You can specify output directory')
+program.option('-q, --quiet', 'no output in console')
+program.parse(process.argv)
+
+if(program.args.length === 0){
+	program.help()
+}
+
+var path = program.args[0]
+fs.stat(path, function(err, stats){
+	if(err) {
+		return console.error('[' + path + '] directory dose not exist.')
+	}
+	if(!stats.isDirectory()){
+		return console.error('[' + path + '] is not directory.')
+	}
+
+	program.path = path
+	program.console = !program.quiet
+	webMinify(program)
+})
