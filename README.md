@@ -1,4 +1,4 @@
-# webnano
+# webnano   [![NPM version](https://badge.fury.io/js/webnano.svg)](https://badge.fury.io/js/webnano)
 
 Speeding up your web sites by minifying html, css, javascript and images (jpeg, png, gif, svg).
 
