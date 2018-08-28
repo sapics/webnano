@@ -44,7 +44,6 @@ module.exports = function(opts){
 
 	withConsoleLog && console.log('SRC PATH: ' + inputPath)
 	withConsoleLog && console.log('MINIFIED PATH: ' + minifiedPath)
-	fs.emptyDirSync(minifiedPath)
 
 	var minifyTextExts = ['js', 'css', 'html', 'htm']
 	var minifyImageExts = ['gif', 'png', 'jpeg', 'jpg', 'svg']
@@ -52,7 +51,7 @@ module.exports = function(opts){
 	var promises = []
 
 	// minify text file
-	function _minify(text, src, dest, ext){
+	function minifyText(text, src, dest, ext){
 		switch(ext){
 		case 'css':
 			return cssNano.process(text, {from: undefined}).then(function(result){
@@ -82,13 +81,13 @@ module.exports = function(opts){
 
 	var useList = opts.lossless ? 
 	[
-		// Lossless 圧縮
+		// Lossless Compression
 		imageminGifsicle({optimizationLevel: 2}),
 		imageminJpegtran(),
 		imageminZopfli({more: true}),
 		imageminSvgo({plugins:[{removeViewBox: false}]})
 	]:[
-		// Lossy 圧縮
+		// Lossy Compression
 		imageminGifsicle({optimizationLevel: 2}),
 		imageminMozjpeg({quality:85}),
 		imageminPngquant({speed:2, quality: '80-100'}),
@@ -103,7 +102,7 @@ module.exports = function(opts){
 		return new Promise(function(resolve, reject){
 			fs.readFile(src, 'utf8', function(err, text){
 				if(err) return reject(err);
-				_minify(text, src, dest, ext).then(function(result){
+				minifyText(text, src, dest, ext).then(function(result){
 					fs.writeFile(dest, result, function(err){
 						if(err) return reject(err);
 						resolve()
@@ -158,8 +157,3 @@ module.exports = function(opts){
 	}
 	return ps
 }
-
-
-
-
-
