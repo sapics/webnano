@@ -22,6 +22,7 @@ Then, minified site folder `C:\www\html-minified` is created.
 ### Options
 
 ```
+ -l, --lossless            Lossless compression for image
  -o, --output <directory>  You can specify output directory
  -q, --quiet               no output in console
  -h, --help                output usage information

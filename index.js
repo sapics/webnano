@@ -8,11 +8,12 @@ const htmlMinify = require('html-minifier').minify
 const postcss = require('postcss')
 const cssNano = postcss([require('cssnano')])
 
-const UglifyJS = require("uglify-js");
+const UglifyJS = require('uglify-js')
 
 const imagemin = require('imagemin')
 const imageminGifsicle = require('imagemin-gifsicle')
 const imageminMozjpeg = require('imagemin-mozjpeg')
+const imageminJpegtran = require('imagemin-jpegtran')
 const imageminPngquant = require('imagemin-pngquant')
 const imageminZopfli = require('imagemin-zopfli')
 const imageminSvgo = require('imagemin-svgo')
@@ -79,13 +80,22 @@ module.exports = function(opts){
 		}
 	}
 
-	var useList = [
+	var useList = opts.lossless ? 
+	[
+		// Lossless 圧縮
+		imageminGifsicle({optimizationLevel: 2}),
+		imageminJpegtran(),
+		imageminZopfli({more: true}),
+		imageminSvgo({plugins:[{removeViewBox: false}]})
+	]:[
+		// Lossy 圧縮
 		imageminGifsicle({optimizationLevel: 2}),
 		imageminMozjpeg({quality:85}),
 		imageminPngquant({speed:2, quality: '80-100'}),
 		imageminZopfli({more: true}),
 		imageminSvgo({plugins:[{removeViewBox: false}]})
-	]
+	];
+
 	function minify(src, dest, ext){
 		if(minifyImageExts.indexOf(ext) !== -1){
 			return imagemin([src], path.dirname(dest), {use: useList, watch: true})

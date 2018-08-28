@@ -7,6 +7,7 @@ const program = require('commander')
 
 program.usage('<directory> [options]')
 program.description('Minify the files included in <directory>')
+program.option('-l, --lossless', 'Lossless compression for image')
 program.option('-o, --output <directory>', 'You can specify output directory')
 program.option('-q, --quiet', 'no output in console')
 program.parse(process.argv)
