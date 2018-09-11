@@ -41,6 +41,6 @@
     "imagemin-svgo": "^7.0.0",
     "imagemin-zopfli": "^5.1.0",
     "progress": "^2.0.0",
-    "uglify-js": "^3.4.8"
+    "uglify-js": "^3.4.9"
   }
 }
